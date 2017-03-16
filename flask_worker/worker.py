@@ -37,12 +37,19 @@ class Slave(BaseWorker):
 
 
 class Worker(BaseWorker):
+    pass
 
-    def __init__(self, app=None, chan=None):
-        super(Worker, self).__init__(app)
+
+class GeventWorker(BaseWorker):
+
+    def __init__(self, app=None, chan=None, num=None):
+        super(GeventWorker, self).__init__(app)
         self.default_chan = Channel() if not chan else chan
         self.chans = [self.default_chan]
-        self.pool = Pool(8)
+        if not num:
+            import os
+            num = os.cpu_count()
+        self.pool = Pool(num)
         context.clear()
         if app and not hasattr(app, 'worker'):
             app.worker = self

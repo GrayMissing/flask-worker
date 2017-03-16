@@ -1,13 +1,12 @@
 # coding=utf-8
-import pytest
 
 from flask_worker.channel import RedisChannel
-from flask_worker import Worker
+from flask_worker import GeventWorker
 
 
 def test_redis_worker():
     chan = RedisChannel(host="localhost")
-    worker = Worker(chan=chan)
+    worker = GeventWorker(chan=chan)
 
     @worker.task
     def helloworld():

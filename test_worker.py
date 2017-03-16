@@ -1,9 +1,9 @@
 # coding=utf-8
-from flask_worker import Worker
+from flask_worker import Worker, GeventWorker
 
 
 def test_background_worker():
-    worker = Worker()
+    worker = GeventWorker()
 
     @worker.task
     def helloworld():
@@ -20,7 +20,7 @@ def test_background_worker():
 
 
 def test_worker():
-    worker = Worker()
+    worker = GeventWorker()
 
     @worker.task
     def helloworld():

@@ -1,7 +1,6 @@
 # coding=utf-8
 from gevent.queue import Queue
 import redis
-import time
 
 from .message import Message
 
@@ -10,7 +9,7 @@ class Channel(object):
     def __init__(self):
         self.data = Queue()
 
-    def select(self, timeout=None):
+    def select(self):
         if len(self.data):
             return True
         return False
@@ -42,7 +41,7 @@ class RedisChannel(Channel):
         self.data = redis.Redis(host=host, port=port)
         self.name = name
 
-    def select(self, timeout=None):
+    def select(self):
         if self.data.llen(self.name):
             return True
         return False
